@@ -36,12 +36,11 @@ export class DataGridWC extends LitElement {
         }
     
         table {
-            min-width: 100vw;
+            min-width: 100%;
             width: auto;
             flex: 1;
             display: grid;
             border-collapse: collapse;
-            grid-template-columns: repeat(8, minmax(100px, 1fr))
         }
     
         thead,
@@ -62,7 +61,7 @@ export class DataGridWC extends LitElement {
             position: sticky;
             top: 0;
             background: #4caf50;
-            text-align: left;
+            text-align: center;
             font-weight: 600;
             font-size: 1.1rem;
             color: white;
@@ -106,11 +105,11 @@ export class DataGridWC extends LitElement {
         `
     }
 
-    thChunk (column) {
+    thChunk(column) {
         return html`<th>${column.columnName}<span class="resize-handle"></span></th>`;
     }
 
-    tdRowChunks (row) {
+    tdRowChunks(row) {
         return html`${this.columns.map((column) => html`<td>${row?.[column?.dataFieldName]}</td>`)}`;
     }
 
@@ -118,7 +117,12 @@ export class DataGridWC extends LitElement {
         console.log(this.rows);
 
         return html`
-        <table>
+        <style>
+            #data-grid {
+                grid-template-columns: repeat(${this.columns.length}, minmax(100px, 1fr))
+            }
+        </style>
+        <table id='data-grid'>
             <thead>
                 <tr>
                     ${this.columns?.map(column => this.thChunk(column))}
