@@ -5,6 +5,9 @@ export class DataGridWC extends LitElement {
         return {
             columns: {
                 type: Array
+            },
+            rows: {
+                type: Array
             }
         }
     }
@@ -12,6 +15,7 @@ export class DataGridWC extends LitElement {
     constructor() {
         super();
         this.columns = [];
+        this.rows = [];
     }
 
     static get styles() {
@@ -37,7 +41,7 @@ export class DataGridWC extends LitElement {
             flex: 1;
             display: grid;
             border-collapse: collapse;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr))
+            grid-template-columns: repeat(8, minmax(100px, 1fr))
         }
     
         thead,
@@ -102,11 +106,17 @@ export class DataGridWC extends LitElement {
         `
     }
 
-    thChunk = (column) => {
+    thChunk (column) {
         return html`<th>${column.columnName}<span class="resize-handle"></span></th>`;
     }
 
+    tdRowChunks (row) {
+        return html`${this.columns.map((column) => html`<td>${row?.[column?.dataFieldName]}</td>`)}`;
+    }
+
     render() {
+        console.log(this.rows);
+
         return html`
         <table>
             <thead>
@@ -115,7 +125,11 @@ export class DataGridWC extends LitElement {
                 </tr>
             </thead>
             <tbody>
-                
+                ${this.rows.map((row) => html`
+                    <tr>
+                        ${this.tdRowChunks(row)}
+                    </tr>
+                `)}
             </tbody>
         </table>`
     }
