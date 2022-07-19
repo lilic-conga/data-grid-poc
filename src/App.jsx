@@ -3,6 +3,7 @@ import { DataGrid } from './wcWrappers/DataGrid';
 import rowsMock from './MOCK_DATA.json';
 
 function App() {
+  // add column size to the config
   const columns = [
     {columnName: 'ID', dataFieldName: 'id'},
     {columnName: 'First Name', dataFieldName: 'firstName'},

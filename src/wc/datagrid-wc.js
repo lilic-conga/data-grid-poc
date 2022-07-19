@@ -1,4 +1,8 @@
 import { LitElement, html, css } from "lit";
+import { DataGrid } from "../wcWrappers/DataGrid";
+
+const DEFAULT_MIN_COL_WIDTH = 150;
+const DEFAULT_MAX_COL_WIDTH = '1fr';
 
 export class DataGridWC extends LitElement {
     static get properties() {
@@ -72,27 +76,6 @@ export class DataGridWC extends LitElement {
             border: 0;
         }
     
-        .resize-handle {
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            background: black;
-            opacity: 0;
-            width: 3px;
-            cursor: col-resize;
-        }
-    
-        .resize-handle:hover,
-        /* The following selector is needed so the handle is visible during resize even if the mouse isn't over the handle anymore */
-        .header--being-resized .resize-handle {
-            opacity: 0.5;
-        }
-    
-        th:hover .resize-handle {
-            opacity: 0.3;
-        }
-    
         td {
             padding-top: 10px;
             padding-bottom: 10px;
@@ -106,7 +89,7 @@ export class DataGridWC extends LitElement {
     }
 
     thChunk(column) {
-        return html`<th>${column.columnName}<span class="resize-handle"></span></th>`;
+        return html`<th>${column.columnName}</th>`;
     }
 
     tdRowChunks(row) {
@@ -114,12 +97,10 @@ export class DataGridWC extends LitElement {
     }
 
     render() {
-        console.log(this.rows);
-
         return html`
         <style>
             #data-grid {
-                grid-template-columns: repeat(${this.columns.length}, minmax(100px, 1fr))
+                grid-template-columns: repeat(${this.columns.length}, minmax(${DEFAULT_MIN_COL_WIDTH}px, ${DEFAULT_MAX_COL_WIDTH}))
             }
         </style>
         <table id='data-grid'>
